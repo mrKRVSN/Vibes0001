@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vibes0001 | Music App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            color: #333;
+            padding: 20px;
+        }
+
+        .dashboard {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-family: 'Courier New', monospace;
+            font-size: 32px;
+            font-weight: bold;
+            color: #e91e63;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .song-list {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .song-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .song-item:hover {
+            background: #f9f9f9;
+        }
+
+        .add-section {
+            margin-top: 30px;
+            border-top: 2px solid #ccc;
+            padding-top: 15px;
+        }
+
+        .add-section input {
+            padding: 8px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        .add-section button {
+            padding: 8px 15px;
+            background: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-section button:hover {
+            background: #d81b60;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="logo">Vibes0001</div>
+
+        <audio id="audioPlayer" controls></audio>
+
+        <div class="song-list" id="playlist">
+            <!-- Songs will be loaded here -->
+        </div>
+
+        <div class="add-section">
+            <h3>Add New Song</h3>
+            <input type="text" id="songName" placeholder="Song Name">
+            <input type="text" id="songURL" placeholder="audio/song.mp3">
+            <button onclick="addSong()">Add</button>
+        </div>
+    </div>
+
+    <script>
+        let songs = [
+            { name: "पहला गाना", file: "audio/song1.mp3" },
+            { name: "दूसरा गाना", file: "audio/song2.mp3" }
+        ];
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playlist = document.getElementById('playlist');
+
+        function loadSongs() {
+            playlist.innerHTML = '';
+            songs.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'song-item';
+                item.textContent = song.name;
+                item.onclick = () => {
+                    audioPlayer.src = song.file;
+                    audioPlayer.play();
+                };
+                playlist.appendChild(item);
+            });
+        }
+
+        function addSong() {
+            const name = document.getElementById('songName').value.trim();
+            const url = document.getElementById('songURL').value.trim();
+            if (name && url) {
+                songs.push({ name, file: url });
+                loadSongs();
+                document.getElementById('songName').value = '';
+                document.getElementById('songURL').value = '';
+            }
+        }
+
+        // Initial load
+        loadSongs();
+    </script>
+</body>
+</html>
